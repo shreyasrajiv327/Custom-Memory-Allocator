@@ -66,5 +66,40 @@ void *remove_offset(void *ptr){
 
 void *getFooter(void *header_ptr){
     block_header *header = (block_header*)header_ptr;
-    return (void*)((char*))
+    return (void*)((char*)header_ptr + header->size - sizeof(block_header));
+}
+
+
+void coalesce(void *ptr)
+{
+    block_header *header = (block_header*) ptr;
+    block_header *next_header = header->next;
+    if(next_header && next_header->is_free)
+    {
+        header->size += next_header->size;
+        header->next  = next_header->next;
+    }
+}
+
+void append_to_free_lost(void *ptr)
+{
+    block_header *header = (block_header*)ptr;
+    header->next = free_list;
+    free_list = header;
+}
+
+void remove_from_free_list(void *ptr)
+{
+    block_header *header =(block_header*)ptr;
+    block_header **current = &free_list;
+
+    while(*current && *current != header)
+    {
+        current =&(*current)->next;
+    }
+
+    if(*current)
+    {
+        *current = header->next;
+    }
 }
