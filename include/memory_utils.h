@@ -1,6 +1,6 @@
 #ifndef MEMORY_UTILS_H
 #define MEMORY_UTILS_H
-
+size_t align_size(size_t size);
 void *add_offset(void *ptr);
 void *remove_offset(void *ptr);
 void *getFooter(void *header_ptr);
@@ -14,6 +14,6 @@ void coalesce(void *ptr);
 int align_size(int size);    // Add this
 void *find_free_block(int size);  // Add this
 void split_block(void *block, int size); // Add this
-
+extern void *free_list;
 
 #endif
