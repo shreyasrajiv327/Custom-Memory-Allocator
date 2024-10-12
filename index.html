@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A custom memory allocator implemented in C using mmap, providing memory allocation, freeing, and reallocation functions.">
+    <title>Custom Memory Allocator</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2c2c2c;
+            color: #ffffff; /* Changed to white */
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #8c7a56;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: normal;
+        }
+
+        header p {
+            margin-top: 5px;
+            font-size: 1.1rem;
+            color: white; /* Added to ensure the <p> text is white */
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #8c7a56;
+        }
+
+        h2 {
+            color: #8c7a56;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        ul, ol {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+            padding-left: 20px;
+        }
+
+        code {
+            background-color: #f8f2de;
+            color: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        pre {
+            background-color: #f8f2de;
+            padding: 10px;
+            border-left: 4px solid #8c7a56;
+            margin: 10px 0;
+            border-radius: 4px;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c2c2c;
+            color: #ffffff; /* Changed to white */
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+            color: white; /* Added to ensure the <p> text is white */
+        }
+
+        /* Add hover effects for interactivity */
+        a {
+            color: #8c7a56;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #b89d6b;
+            text-decoration: underline;
+        }
+
+        /* Style buttons for a classy feel */
+        button {
+            background-color: #8c7a56;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #b89d6b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Custom Memory Allocator</h1>
+        <p id="header">Efficient memory management using mmap and custom functions in C</p>
+    </header>
+
+    <section>
+        <h2>Project Overview</h2>
+        <p>
+            This project demonstrates a <strong>custom memory allocator</strong> implemented in C using the <code>mmap</code> system call. 
+            It provides custom memory management functions including <code>myalloc()</code>, <code>myfree()</code>, and <code>myrealloc()</code>.
+            Instead of using standard C memory allocation functions like <code>malloc()</code> or <code>free()</code>, this project manages memory 
+            by reserving a fixed-size pool and handling memory blocks manually through a linked list of headers.
+        </p>
+    </section>
+
+    <section>
+        <h2>How It Works</h2>
+        <ul>
+            <li><strong>Memory Pool:</strong> A block of memory is obtained using the <code>mmap</code> system call (default size: 1MB).</li>
+            <li><strong>Custom Allocation:</strong> The memory is divided into chunks that are tracked using a linked list with headers.</li>
+            <li><strong>Memory Management:</strong> Functions like <code>myalloc()</code> allocate memory, <code>myfree()</code> deallocates memory, and <code>myrealloc()</code> resizes blocks.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Usage Instructions</h2>
+        <ol>
+            <li>Compile the project using the following commands:</li>
+            <pre><code>gcc -o allocator src/allocator.c src/memory_utils.c main.c -I include</code></pre>
+            <li>Run the program:</li>
+            <pre><code>./allocator</code></pre>
+            <li>Follow the interactive prompts to allocate, free, and reallocate memory dynamically.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>File Structure</h2>
+        <p>The project consists of the following files:</p>
+        <ul>
+            <li><strong>allocator.h:</strong> Contains the function declarations for <code>myalloc()</code>, <code>myfree()</code>, and <code>myrealloc()</code>.</li>
+            <li><strong>memory_utils.h:</strong> Declares utility functions for memory block management.</li>
+            <li><strong>allocator.c:</strong> Implements the memory allocation, free, and reallocation logic.</li>
+            <li><strong>memory_utils.c:</strong> Contains utility functions like aligning memory size, coalescing blocks, and managing the free list.</li>
+            <li><strong>main.c:</strong> A sample interactive program that demonstrates how to use the custom allocator.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Features</h2>
+        <ul>
+            <li>Efficient memory management using <code>mmap</code> for obtaining memory directly from the OS.</li>
+            <li>Custom memory allocation, freeing, and reallocation using a linked list of memory blocks.</li>
+            <li>Interactive menu-driven program that demonstrates memory allocation and deallocation in real time.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Future Enhancements</h2>
+        <ul>
+            <li>Adding support for multi-threading with thread-safe memory allocation.</li>
+            <li>Implementing memory defragmentation techniques.</li>
+            <li>Customizable memory pool size at runtime.</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>Developed by Shreyas Rajiv | &copy; 2024</p>
+    </footer>
+</body>
+</html>
