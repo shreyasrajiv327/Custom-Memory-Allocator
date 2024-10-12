@@ -4,8 +4,8 @@
 
 #define POOL_SIZE 1024*1024
 
-static void *memory_pool = NULL;
-static void *free_list = NULL;
+void *memory_pool = NULL; // Removed static keyword
+void *free_list = NULL;   // Removed static keyword
 
 void init_memory_pool(){
     if(!memory_pool) {
@@ -24,7 +24,7 @@ void init_memory_pool(){
 
 void *myalloc(int size)
 {
-    if(size<=0)
+    if(size <= 0)
     {
         return NULL;
     }
@@ -38,11 +38,11 @@ void *myalloc(int size)
         return NULL;
     }
 
-    split_block(block,size);
+    split_block(block, size);
 
     mark_as_allocated(block);
 
-    return block;
+    return add_offset(block);  // Return block with offset
 }
 
 void myfree(void *ptr)
@@ -61,23 +61,23 @@ void myfree(void *ptr)
     coalesce(header);
 }
 
-void *myrealloc(void *ptr,int size)
+void *myrealloc(void *ptr, int size)
 {
     if(!ptr)
     {
         return myalloc(size);
     }
 
-    if(size<=0)
+    if(size <= 0)
     {
         myfree(ptr);
         return NULL;
     }
 
     void *header = remove_offset(ptr);
-    int current_size = get_block_size(header);
+    size_t current_size = get_block_size(header);
 
-    if(current_size>=size)
+    if(current_size >= size)
     {
         return ptr;
     }
@@ -86,10 +86,9 @@ void *myrealloc(void *ptr,int size)
 
     if(new_block)
     {
-        memcpy(new_block,ptr,current_size);
+        memcpy(new_block, ptr, current_size);  // Use current size for copy
         myfree(ptr);
     }
 
     return new_block;
 }
-
